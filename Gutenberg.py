@@ -1,12 +1,14 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 
 
 import argparse
 import subprocess
+import requests
+from bs4 import BeautifulSoup
 
 def start():
     pars = argparse.ArgumentParser(description='A tool to find books/resources for academic purposes')
-    pars.add_argument('-d', '--delete', nargs='*', default='blacklist.txt', help='-d [site1] [site2]...')
+    pars.add_argument('-d', '--delete', action=add_blacklist help='-d [site1] [site2]...')
     pars.add_argument('-p', '--pdf', action='store_true', help='-p to find pdf')
     pars.add_argument('-v', '--videos', action='store_true', help='-v to find videos')
     pars.add_argument('-j', '--jpg', action='store_true', help='-j to find jpg file')
@@ -43,10 +45,7 @@ def start():
                 print(8)
             elif getattr(args, ftype) and ftype == 'word':
                 print(9)
-            else:
-                print(10)
-
-            
+                        
 
 
     
