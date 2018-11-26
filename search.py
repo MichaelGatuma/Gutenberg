@@ -16,9 +16,9 @@ def paginate(soup, pg):
     for page in soup.find_all('table', attrs={'id' : 'nav'}):
         for number in page.find_all('a'):
             if (number['href'].split('start=')[1].split('&sa')[0]) not in pg and len(pg) == 0:
-                pg.append(number['href'].split('start=')[1].split('&sa')[0])
+                pg.append(int(number['href'].split('start=')[1].split('&sa')[0]))
             elif (number['href'].split('start=')[1].split('&sa')[0]) not in pg and (number['href'].split('start=')[1].split('&sa')[0]) > pg[0]:
-                pg.append(number['href'].split('start=')[1].split('&sa')[0])
+                pg.append(int(number['href'].split('start=')[1].split('&sa')[0]))
 
 def make_query(increment, term, tp, p, l):
     r = requests.get('https://www.google.com/search?q={}{}&start={}'.format(tp, term, increment))
