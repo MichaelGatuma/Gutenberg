@@ -4,7 +4,7 @@ import argparse
 import subprocess
 import requests
 from bs4 import BeautifulSoup
-from search import Search
+from search import search
 
 def start():
     pars = argparse.ArgumentParser(description='A tool to find books/resources for academic purposes')
@@ -27,26 +27,67 @@ def start():
     else:
         for ftype in vars(args): #Currently Placeholder
             if getattr(args, ftype) and ftype == 'pdf':
-                s = Search(args.search, ftype)
+                urls = search(args.search, ftype)
+                pdf_list = open('pdf_urls.txt', 'w+')
+                for url in urls:
+                    pdf_list.write(url+'\n')
+                pdf_list.close()
             elif getattr(args, ftype) and ftype == 'videos':
-                print(2) 
+                urls = search(args.search, ftype)
+                video_list = open('video_urls.txt', 'w+')
+                for url in urls:
+                    video_list.write(url+'\n')
+                video_list.close()
+
             elif getattr(args, ftype) and ftype == 'jpg':
-                print(3)
+                urls = search(args.search, ftype)
+                jpg_list = open('jpg_urls.txt', 'w+')
+                for url in urls:
+                    jpg_list.write(url+'\n')
+                jpg_list.close()
+
             elif getattr(args, ftype) and ftype == 'png':
-                print(4)
+                urls = search(args.search, ftype)
+                png_list = open('jpg_urls.txt', 'w+')
+                for url in urls:
+                    png_list.write(url+'\n')
+                png_list.close()
+
             elif getattr(args, ftype) and ftype == 'zip':
-                print(5)
+                urls = search(args.search, ftype)
+                zip_list = open('jpg_urls.txt', 'w+')
+                for url in urls:
+                    zip_list.write(url+'\n')
+                zip_list.close()
+
             elif getattr(args, ftype) and ftype == 'mp3':
-                print(6)
+                urls = search(args.search, ftype)
+                mp3_list = open('mp3_urls.txt', 'w+')
+                for url in urls:
+                    mp3_list.write(url+'\n')
+                mp3_list.close()
+
             elif getattr(args, ftype) and ftype == 'mp4':
-                print(7)
+                urls = search(args.search, ftype)
+                mp4_list = open('mp4_urls.txt', 'w+')
+                for url in urls:
+                    mp4_list.write(url+'\n')
+                mp4_list.close()
+
             elif getattr(args, ftype) and ftype == 'ppt':
-                print(8)
+                urls = search(args.search, ftype)
+                ppt_list = open('ppt_urls.txt', 'w+')
+                for url in urls:
+                    ppt_list.write(url+'\n')
+                ppt_list.close()
+
             elif getattr(args, ftype) and ftype == 'word':
-                print(9)
-                        
-
-
+                urls = search(args.search, ftype)
+                word_list = open('word_urls.txt', 'w+')
+                for url in urls:
+                    word_list.write(url+'\n')
+                word_list.close()
+                     
     
 if __name__ == '__main__':
     start()
