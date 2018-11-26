@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3.6
 import requests
 import urllib
 from bs4 import BeautifulSoup
