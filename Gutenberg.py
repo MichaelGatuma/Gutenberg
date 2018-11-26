@@ -1,14 +1,13 @@
 #! /usr/bin/env python
 
-
 import argparse
 import subprocess
 import requests
 from bs4 import BeautifulSoup
+from search import Search
 
 def start():
     pars = argparse.ArgumentParser(description='A tool to find books/resources for academic purposes')
-    pars.add_argument('-d', '--delete', action=add_blacklist help='-d [site1] [site2]...')
     pars.add_argument('-p', '--pdf', action='store_true', help='-p to find pdf')
     pars.add_argument('-v', '--videos', action='store_true', help='-v to find videos')
     pars.add_argument('-j', '--jpg', action='store_true', help='-j to find jpg file')
@@ -28,7 +27,7 @@ def start():
     else:
         for ftype in vars(args): #Currently Placeholder
             if getattr(args, ftype) and ftype == 'pdf':
-                print(1) 
+                s = Search(args.search, ftype)
             elif getattr(args, ftype) and ftype == 'videos':
                 print(2) 
             elif getattr(args, ftype) and ftype == 'jpg':
