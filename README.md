@@ -4,8 +4,8 @@ A tool to find books/resources for academic purposes and discards sites such as 
 ## Dependencies
 The required Python libraries are the following: argparse, subprocess, requests, bs4 and urllib. Most are automatically installed by keeping your Python version up to date. As for bs4 and requests just use the following command from the terminal:
 ```bash
-$ pip install bs4
-$ pip install requests
+$ pip3 install bs4
+$ pip3 install requests
 ```
 ## Running Gutenberg
 For the moment, Gutenberg is strictly a command line tool. You will need to make Gutenberg.py executable.
