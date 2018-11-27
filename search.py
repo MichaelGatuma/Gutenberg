@@ -29,7 +29,7 @@ def make_query(increment, term, tp, p, l):
 
 def search(query, filetype):
     i = 0
-    filetype = filetype + ':'
+    filetype = 'filetype:' + filetype
     pages, links = [], []
     make_query(i, query, filetype, pages, links)
     try:
