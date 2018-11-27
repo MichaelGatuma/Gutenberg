@@ -20,6 +20,11 @@ $ pip3 install requests
 ## Running Gutenberg 
 You will need to make Gutenberg.py executable.
 
+## Running Gutenberg (GUI)
+```bash
+$ ./Gutenberg_Gui.py 
+```
+
 ## Running Gutenberg (Terminal Only)
 To search pdf:
 ```bash
