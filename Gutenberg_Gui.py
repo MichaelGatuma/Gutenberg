@@ -82,6 +82,7 @@ class Gutenberg(QMainWindow):
         self.progress.setValue(0)
         for i in search(self.textbox.text(), self.file_type):
             self.urls.write(i+'\n')
+        self.urls.close()
         self.progress.setValue(100)
 
     def file_extension(self, ftype):
