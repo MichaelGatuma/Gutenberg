@@ -1,6 +1,6 @@
 #!/usr/bin/python3.6
 import sys
-from PyQt5.QtWidgets import QApplication, QComboBox, QWidget, QMainWindow, QLabel, QPushButton, QAction, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QApplication, QComboBox, QWidget, QMainWindow, QLabel, QPushButton, QAction, QLineEdit, QMessageBox, QProgressBar
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from search import search
@@ -12,7 +12,10 @@ class Gutenberg(QMainWindow):
         self.left = 10
         self.top = 10
         self.width = 600
-        self.height = 300       
+        self.height = 300 
+
+        #Make Logo
+        self.setWindowIcon(QIcon('Gutenberg.ico'))
         
         self.UI()
 
@@ -22,17 +25,23 @@ class Gutenberg(QMainWindow):
 
         #Make Title
         title = QLabel('Gutenberg', self)
-        title.move(250, 0)
+        title.move(260, 0)
         
         #Create Query Box
         self.textbox = QLineEdit(self)
-        self.textbox.move(200, 150)
-        self.textbox.resize(200, 20)
+        self.textbox.move(100, 150)
+        self.textbox.resize(150, 20)
         self.textbox.setPlaceholderText('query')
+
+        #Create txt file
+        self.txt = QLineEdit(self)
+        self.txt.resize(150, 20)
+        self.txt.move(330, 150)
+        self.txt.setPlaceholderText('txt file name')
 
         #Create extensions dropdown button
         extensions = QComboBox(self)
-        extensions.move(405, 150)
+        extensions.move(255, 150)
         extensions.resize(70, 20)
         extensions.addItem('')
         extensions.addItem('pdf')
@@ -44,6 +53,11 @@ class Gutenberg(QMainWindow):
         extensions.addItem('html')
         extensions.addItem('gdoc')
 
+        #Make Progress Bar
+        self.progress = QProgressBar(self)
+        self.progress.setGeometry(255 ,175, 225, 20)
+        
+
         #Default Filetype is none
         self.file_type = ''
         
@@ -53,7 +67,7 @@ class Gutenberg(QMainWindow):
 
         #create search button
         self.button = QPushButton('Search', self)
-        self.button.move(270, 170)
+        self.button.move(138, 175)
         self.button.resize(70, 20)
 
         #connect button to search function
@@ -63,9 +77,12 @@ class Gutenberg(QMainWindow):
 
 
     def query(self):
-        self.urls = open('urls.txt', 'w+')
+        text_file = self.txt.text()+'.txt'
+        self.urls = open(text_file, 'w+')
+        self.progress.setValue(0)
         for i in search(self.textbox.text(), self.file_type):
             self.urls.write(i+'\n')
+        self.progress.setValue(100)
 
     def file_extension(self, ftype):
         self.file_type = ftype        
