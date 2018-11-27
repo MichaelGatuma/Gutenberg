@@ -19,14 +19,21 @@ class Gutenberg(QMainWindow):
     def UI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+
+        #Make Title
+        title = QLabel('Gutenberg', self)
+        title.move(250, 0)
         
         #Create Query Box
         self.textbox = QLineEdit(self)
         self.textbox.move(200, 150)
         self.textbox.resize(200, 20)
+        self.textbox.setPlaceholderText('query')
 
         #Create extensions dropdown button
         extensions = QComboBox(self)
+        extensions.move(405, 150)
+        extensions.resize(70, 20)
         extensions.addItem('')
         extensions.addItem('pdf')
         extensions.addItem('ppt')
@@ -46,7 +53,8 @@ class Gutenberg(QMainWindow):
 
         #create search button
         self.button = QPushButton('Search', self)
-        self.button.move(250, 170)
+        self.button.move(270, 170)
+        self.button.resize(70, 20)
 
         #connect button to search function
         self.button.clicked.connect(self.query)
@@ -61,7 +69,6 @@ class Gutenberg(QMainWindow):
 
     def file_extension(self, ftype):
         self.file_type = ftype        
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

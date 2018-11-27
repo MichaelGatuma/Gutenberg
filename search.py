@@ -11,7 +11,7 @@ def url_scrape(soup, link):
             pass
         except IndexError:
             link.append(item.a['href'])
-            
+
 def paginate(soup, pg):
     for page in soup.find_all('table', attrs={'id' : 'nav'}):
         for number in page.find_all('a'):
@@ -21,9 +21,8 @@ def paginate(soup, pg):
                 pg.append(int(number['href'].split('start=')[1].split('&sa')[0]))
 
 def make_query(increment, term, tp, p, l):
-    r = requests.get('https://www.google.com/search?q={}{}&start={}'.format(tp, term, increment))
+    r = requests.get('https://www.google.com/search?q={} {}&start={}'.format(term, tp, increment))
     soup = BeautifulSoup(r.content, 'html.parser')
-
     url_scrape(soup, l)
     paginate(soup, p)
 
