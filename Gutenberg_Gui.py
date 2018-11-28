@@ -1,8 +1,8 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python3.6 
 import sys
 from PyQt5.QtWidgets import QApplication, QCheckBox, QComboBox, QWidget, QMainWindow, QLabel, QPushButton, QAction, QLineEdit, QMessageBox, QProgressBar
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, Qt
 from search import search
 
 class Gutenberg(QMainWindow):
@@ -71,7 +71,7 @@ class Gutenberg(QMainWindow):
         self.button.clicked.connect(self.query)
 
         #create blacklist checkbox
-        enable_blacklist = False
+        self.enable_blacklist = False
         self.blacklist = QCheckBox('blacklist', self)
         self.blacklist.stateChanged.connect(self.use_blacklist)
         self.blacklist.move(485, 145)
@@ -83,7 +83,7 @@ class Gutenberg(QMainWindow):
         text_file = self.txt.text()+'.txt'
         self.urls = open(text_file, 'w+')
         self.progress.setValue(0)
-        for i in search(self.textbox.text(), self.file_type):
+        for i in search(self.textbox.text(), self.file_type, self.enable_blacklist):
             self.urls.write(i+'\n')
         self.urls.close()
         self.progress.setValue(100)
@@ -92,8 +92,15 @@ class Gutenberg(QMainWindow):
     def file_extension(self, ftype):
         self.file_type = ftype        
 
-    def use_blacklist(self):
-        self.enable_blacklist = True
+    def use_blacklist(self, state):
+        if state == Qt.Checked:
+            self.enable_blacklist = True
+            print('blacklist activated')
+            print(self.enable_blacklist)
+        else:
+            self.enable_blacklist = False
+            print('blacklist deactivated')
+            print(self.enable_blacklist)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
