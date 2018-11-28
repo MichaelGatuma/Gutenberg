@@ -1,6 +1,6 @@
 #!/usr/bin/python3.6
 import sys
-from PyQt5.QtWidgets import QApplication, QComboBox, QWidget, QMainWindow, QLabel, QPushButton, QAction, QLineEdit, QMessageBox, QProgressBar
+from PyQt5.QtWidgets import QApplication, QCheckBox, QComboBox, QWidget, QMainWindow, QLabel, QPushButton, QAction, QLineEdit, QMessageBox, QProgressBar
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from search import search
@@ -43,15 +43,12 @@ class Gutenberg(QMainWindow):
         extensions = QComboBox(self)
         extensions.move(255, 150)
         extensions.resize(70, 20)
-        extensions.addItem('')
-        extensions.addItem('pdf')
-        extensions.addItem('ppt')
-        extensions.addItem('script')
-        extensions.addItem('zip')
-        extensions.addItem('docx')
-        extensions.addItem('jpg')
-        extensions.addItem('html')
-        extensions.addItem('gdoc')
+        extensions.addItem('') #The default is no specified filetype
+        extension_list = open('extensions.txt', 'r')
+        for i in extension_list:
+            i = i.replace('\n', '')
+            if i != '':
+                extensions.addItem(i)
 
         #Make Progress Bar
         self.progress = QProgressBar(self)
@@ -72,6 +69,12 @@ class Gutenberg(QMainWindow):
 
         #connect button to search function
         self.button.clicked.connect(self.query)
+
+        #create blacklist checkbox
+        enable_blacklist = False
+        self.blacklist = QCheckBox('blacklist', self)
+        self.blacklist.stateChanged.connect(self.use_blacklist)
+        self.blacklist.move(485, 145)
                
         self.show()
 
@@ -84,9 +87,13 @@ class Gutenberg(QMainWindow):
             self.urls.write(i+'\n')
         self.urls.close()
         self.progress.setValue(100)
+        self.enable_blacklist = False
 
     def file_extension(self, ftype):
         self.file_type = ftype        
+
+    def use_blacklist(self):
+        self.enable_blacklist = True
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
