@@ -30,21 +30,30 @@ def paginate(soup, pg):
             elif int(number['href'].split('start=')[1].split('&sa')[0]) not in pg and int(number['href'].split('start=')[1].split('&sa')[0]) > pg[0]:
                 pg.append(int(number['href'].split('start=')[1].split('&sa')[0]))
 
-def make_query(increment, term, tp, p, l, blacklist):
-    r = requests.get('https://www.google.com/search?q={} {}&start={}'.format(term, tp, increment))
+def make_query(increment, term, filet, p, l, blacklist, s_pattern):
+    if filet == '' and s_pattern == '':
+        r = requests.get('https://www.google.com/search?q={}&start={}'.format(term, increment))
+    elif filet != '' and s_pattern == '':
+        r = requests.get('https://www.google.com/search?q={}{}&start={}'.format(s_pattern, term, increment))
+    elif filet == '' and s_pattern != '':
+        r = requests.get('https://www.google.com/search?q={} {}&start={}'.format(term, filet, increment))
+    else:
+        r = requests.get('https://www.google.com/search?q={}{} {}&start={}'.format(s_pattern, term, filet, increment))
+
     soup = BeautifulSoup(r.content, 'html.parser')
     url_scrape(soup, l, blacklist)
     paginate(soup, p)
 
-def search(query, filetype, blacklists):
+def search(query, filetype, blacklists, search_pattern):
     i = 0
-    filetype = 'filetype:' + filetype
+    if filetype != '':
+        filetype = 'filetype:' + filetype
     pages, links = [], []
-    make_query(i, query, filetype, pages, links, blacklists)
+    make_query(i, query, filetype, pages, links, blacklists, search_pattern)
     try:
         while i < pages[-1]:
             i = pages.pop(0)
-            make_query(i, query, filetype, pages, links, blacklists)
+            make_query(i, query, filetype, pages, links, blacklists, search_pattern)
     except ValueError:
         pass
     return(links)
