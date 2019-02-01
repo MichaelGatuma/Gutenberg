@@ -66,21 +66,31 @@ class Gutenberg(QMainWindow):
         extensions.move(255, 150)
         extensions.resize(70, 20)
         extensions.addItem('file extensions') #The default is no specified filetype
-        extension_list = open('extensions.txt', 'r')
-        for i in extension_list:
-            i = i.replace('\n', '')
-            if i != 'file extensions':
-                extensions.addItem(i)
+        try:
+            extension_list = open('extensions.txt', 'r')
+            for i in extension_list:
+                i = i.replace('\n', '')
+                if i != 'file extensions':
+                    extensions.addItem(i)
+        except FileNotFoundError:
+            extension_list = open('extensions.txt', 'w+')
+            extension_list.close()
+
 
         #Create search pattern dropdown button
         search_pattern = QComboBox(self)
         search_pattern.setGeometry(25, 150, 70, 20)
         search_pattern.addItem('search patterns')#The default is no specified search pattern
-        search_pattern_list = open('search_pattern.txt', 'r')
-        for i in search_pattern_list:
-            i = i.replace('\n', '')
-            if i != 'search patterns':
-                search_pattern.addItem(i)
+        try:
+            search_pattern_list = open('search_pattern.txt', 'r')
+            for i in search_pattern_list:
+                i = i.replace('\n', '')
+                if i != 'search patterns':
+                    search_pattern.addItem(i)
+        except FileNotFoundError:
+            search_pattern_list = open('search_pattern.txt', 'w+')
+            search_pattern_list.close()
+
         search_pattern.activated[str].connect(self.pattern)
 
         #Make Progress Bar

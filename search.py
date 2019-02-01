@@ -21,6 +21,9 @@ def url_scrape(soup, link, blist):
             pass
         except IndexError:
             link.append(item.a['href'])
+        except FileNotFoundError:
+            ignore = open('blacklist.txt', 'w+')
+            ignore.close()
 
 def paginate(soup, pg):
     for page in soup.find_all('table', attrs={'id' : 'nav'}):
