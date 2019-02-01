@@ -180,8 +180,14 @@ class Edit(QMainWindow):
         self.editBox = QTextEdit()
         self.setCentralWidget(self.editBox)
         
-        file_to_edit = open(name, 'r')
-        self.editBox.setText(file_to_edit.read())
+        try:            
+            file_to_edit = open(name, 'r')
+            self.editBox.setText(file_to_edit.read())
+        except FileNotFoundError:
+            file_to_edit = open(name, 'w+')
+            file_to_edit.close()
+            file_to_edit = open(name, 'r')
+            self.editBox.setText(file_to_edit.read())
 
         #Make the save button
         save = QAction(QIcon('save.png'), 'Save', self)
