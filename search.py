@@ -31,12 +31,12 @@ def paginate(soup, pg):
                 pg.append(int(number['href'].split('start=')[1].split('&sa')[0]))
 
 def make_query(increment, term, filet, p, l, blacklist, s_pattern):
-    if filet == '' and s_pattern == '':
+    if filet == 'file types' and s_pattern == 'search patterns':
         r = requests.get('https://www.google.com/search?q={}&start={}'.format(term, increment))
-    elif filet != '' and s_pattern == '':
+    elif filet != 'file types' and s_pattern == 'search patterns':
+        r = requests.get('https://www.google.com/search?q={} {}&start={}'.format(term, filet, increment)) 
+    elif filet == 'file types' and s_pattern != 'search patterns':
         r = requests.get('https://www.google.com/search?q={}{}&start={}'.format(s_pattern, term, increment))
-    elif filet == '' and s_pattern != '':
-        r = requests.get('https://www.google.com/search?q={} {}&start={}'.format(term, filet, increment))
     else:
         r = requests.get('https://www.google.com/search?q={}{} {}&start={}'.format(s_pattern, term, filet, increment))
 
@@ -46,7 +46,7 @@ def make_query(increment, term, filet, p, l, blacklist, s_pattern):
 
 def search(query, filetype, blacklists, search_pattern):
     i = 0
-    if filetype != '':
+    if filetype != 'file types':
         filetype = 'filetype:' + filetype
     pages, links = [], []
     make_query(i, query, filetype, pages, links, blacklists, search_pattern)
